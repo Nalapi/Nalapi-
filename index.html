@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nalapi – Guides d'achat et sélections pour animaux de compagnie</title>
+<meta name="description" content="Guides d'achat et sélections de produits pour chiens, chats et petits animaux.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+<!-- Aucune police Google, aucun outil de mesure d'audience, aucun cookie :
+     le site n'a donc pas besoin de bandeau de consentement. -->
+
+<style>
+/* ===== Palette et bases ===== */
+:root{
+  --bg:#060a18;
+  --text:#eaf1ff;
+  --muted:#b9c6e4;
+  --cyan:#22d3ee;
+  --violet:#a78bfa;
+  --mint:#5eead4;
+  --glass:rgba(255,255,255,.06);
+  --glass-strong:rgba(255,255,255,.1);
+  --line:rgba(140,190,255,.25);
+  --radius:20px;
+  --font-title:ui-rounded,'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-body:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:150px}
+body{
+  font-family:var(--font-body);font-size:17px;line-height:1.65;
+  color:var(--text);background:var(--bg);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3{font-family:var(--font-title);line-height:1.15;letter-spacing:-.01em}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1200px,100% - 2rem);margin-inline:auto}
+section{padding:5rem 0}
+.section-head{max-width:640px;margin-bottom:2.2rem}
+.section-head h2{font-size:clamp(1.8rem,4.5vw,2.6rem);margin-bottom:.6rem}
+.section-head p{color:var(--muted)}
+mark.todo{background:#fbbf24;color:#111;padding:0 .35em;border-radius:5px;font-weight:600}
+
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(60vmax 40vmax at 85% -10%,rgba(167,139,250,.18),transparent 60%),
+    radial-gradient(50vmax 40vmax at -10% 30%,rgba(34,211,238,.13),transparent 60%),
+    var(--bg);
+}
+
+/* ===== Boutons ===== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  min-height:48px;padding:.75rem 1.5rem;border-radius:999px;
+  font:600 1rem var(--font-body);cursor:pointer;border:1px solid transparent;
+  transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;
+}
+.btn:hover{text-decoration:none;transform:translateY(-2px)}
+.btn-primary{color:#04101f;background:linear-gradient(120deg,var(--cyan),var(--mint));box-shadow:0 0 24px rgba(34,211,238,.35)}
+.btn-primary:hover{box-shadow:0 0 36px rgba(34,211,238,.6)}
+.btn-ghost{color:var(--text);background:var(--glass);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(34,211,238,.25)}
+
+/* ===== En-tête ===== */
+header.top{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(6,10,24,.72);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.bar{width:min(1200px,100% - 2rem);margin-inline:auto;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.2rem;padding:.7rem 0}
+.logo{font:700 1.45rem var(--font-title);color:var(--text);display:flex;align-items:center;gap:.5rem;min-height:44px;letter-spacing:.02em}
+.logo:hover{text-decoration:none}
+.logo span.dot{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:1.1rem;background:linear-gradient(135deg,var(--cyan),var(--violet));box-shadow:0 0 18px rgba(34,211,238,.5)}
+nav.main{display:flex;gap:.25rem;margin-left:auto}
+nav.main a{color:var(--text);padding:.6rem .9rem;border-radius:999px;min-height:44px;display:inline-flex;align-items:center;font-weight:500;transition:background .25s,color .25s}
+nav.main a:hover{background:var(--glass-strong);color:var(--cyan);text-decoration:none}
+.search{position:relative;flex:0 1 280px}
+.search input{
+  width:100%;min-height:46px;padding:.6rem 1rem .6rem 2.7rem;border-radius:999px;
+  background:var(--glass);border:1px solid var(--line);color:var(--text);font:500 1rem var(--font-body);
+  transition:border-color .25s,box-shadow .25s;
+}
+.search input::placeholder{color:#a9b8d8}
+.search input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.25)}
+.search svg{position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:20px;height:20px;stroke:var(--cyan);fill:none;stroke-width:2;pointer-events:none}
+.burger{display:none;margin-left:auto;width:48px;height:48px;border-radius:14px;background:var(--glass);border:1px solid var(--line);color:var(--text);cursor:pointer}
+.burger span{display:block;width:22px;height:2px;background:var(--text);margin:5px auto;transition:transform .3s,opacity .3s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:900px){
+  html{scroll-padding-top:130px}
+  .burger{display:block}
+  .search{order:3;flex:1 1 100%}
+  nav.main{order:4;flex:1 1 100%;flex-direction:column;margin:0;max-height:0;overflow:hidden;transition:max-height .35s ease}
+  nav.main.open{max-height:340px}
+  nav.main a{font-size:1.05rem;padding:.8rem 1rem}
+}
+
+/* ===== Hero ===== */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:9.5rem 0 4rem;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.hero h1{
+  font-size:clamp(2.3rem,6vw,4.2rem);margin-bottom:1.2rem;
+  background:linear-gradient(100deg,#fff,var(--cyan),var(--violet),var(--mint),#fff);
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:flow 9s ease-in-out infinite alternate;
+}
+@keyframes flow{to{background-position:100% 0}}
+.hero p.lead{font-size:1.2rem;color:var(--muted);max-width:34em;margin-bottom:2rem}
+.hero .cta{display:flex;flex-wrap:wrap;gap:.9rem}
+.frame{position:relative;padding:3px;border-radius:32px;background:conic-gradient(from var(--a,0deg),var(--cyan),var(--violet),var(--mint),var(--cyan));animation:spin 8s linear infinite;box-shadow:0 0 60px rgba(34,211,238,.25)}
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes spin{to{--a:360deg}}
+.frame .media{border-radius:29px;aspect-ratio:4/5;max-height:560px;width:100%}
+.badge{position:absolute;left:-14px;bottom:28px;padding:.7rem 1.1rem;border-radius:16px;background:rgba(6,10,24,.8);border:1px solid var(--line);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-weight:600;font-size:.95rem;animation:float 5s ease-in-out infinite}
+.badge small{display:block;color:var(--muted);font-weight:500}
+@keyframes float{50%{transform:translateY(-10px)}}
+@media (max-width:900px){
+  .hero{padding-top:11rem}
+  .hero .wrap{grid-template-columns:1fr;gap:2.2rem}
+  .frame .media{aspect-ratio:16/11}
+  .badge{left:10px}
+}
+
+/* ===== Images avec secours ===== */
+.media{position:relative;overflow:hidden;background:linear-gradient(135deg,#10234a,#2a1a5c)}
+.media::after{content:attr(data-emoji);position:absolute;inset:0;display:grid;place-items:center;font-size:3.4rem;opacity:.8}
+.media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:transform .6s ease}
+
+/* ===== Catégories ===== */
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.cat{
+  display:flex;align-items:center;gap:1rem;text-align:left;width:100%;min-height:84px;padding:1rem 1.2rem;
+  border-radius:var(--radius);background:var(--glass);border:1px solid var(--line);color:var(--text);
+  font:600 1.05rem var(--font-title);cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  transition:transform .3s ease,border-color .3s,box-shadow .3s,background .3s;
+}
+.cat:hover{transform:translateY(-4px);border-color:var(--cyan);box-shadow:0 0 28px rgba(34,211,238,.28);background:var(--glass-strong)}
+.cat .ico{font-size:1.9rem;width:52px;height:52px;flex:none;display:grid;place-items:center;border-radius:14px;background:rgba(34,211,238,.1)}
+.cat small{display:block;font:500 .9rem var(--font-body);color:var(--muted)}
+
+/* ===== Filtres ===== */
+.filters{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.2rem}
+.chip{min-height:44px;padding:.5rem 1.1rem;border-radius:999px;cursor:pointer;background:var(--glass);border:1px solid var(--line);color:var(--text);font:500 .95rem var(--font-body);transition:background .25s,border-color .25s,color .25s}
+.chip:hover{border-color:var(--cyan)}
+.chip[aria-pressed="true"]{background:linear-gradient(120deg,var(--cyan),var(--mint));color:#04101f;border-color:transparent;font-weight:600}
+.status{color:var(--muted);margin-bottom:1.4rem;min-height:1.6em}
+
+/* ===== Cartes ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.4rem}
+.card{display:flex;flex-direction:column;overflow:hidden;border-radius:var(--radius);background:var(--glass);border:1px solid var(--line);transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease;animation:pop .5s ease both}
+@keyframes pop{from{opacity:0;transform:scale(.96)}}
+.card:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:0 0 34px rgba(34,211,238,.28)}
+.card:hover .media img{transform:scale(1.07)}
+.card .media{aspect-ratio:16/10}
+.card .body{display:flex;flex-direction:column;gap:.7rem;padding:1.3rem;flex:1}
+.card h3{font-size:1.25rem}
+.card p{color:var(--muted);font-size:1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.tag{padding:.15rem .7rem;border-radius:999px;font-size:.85rem;font-weight:500;background:rgba(167,139,250,.16);color:#d9ccff;border:1px solid rgba(167,139,250,.4)}
+.card .btn{margin-top:auto;align-self:flex-start}
+.pros{list-style:none;display:grid;gap:.3rem;margin-bottom:.4rem}
+.pros li{padding-left:1.5rem;position:relative;color:var(--text);font-size:.98rem}
+.pros li::before{content:"✓";position:absolute;left:0;color:var(--mint);font-weight:700}
+.aff{font-size:.85rem;color:var(--muted)}
+.note{font-size:.95rem;color:var(--muted);border-left:3px solid var(--violet);padding-left:.9rem;margin-bottom:1.6rem;max-width:70ch}
+.note a{color:var(--cyan)}
+.empty{grid-column:1/-1;padding:2rem;text-align:center;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted)}
+
+/* ===== Newsletter ===== */
+.news{border-radius:28px;padding:clamp(1.8rem,5vw,3.5rem);text-align:center;background:linear-gradient(135deg,rgba(34,211,238,.14),rgba(167,139,250,.16));border:1px solid var(--line)}
+.news h2{font-size:clamp(1.7rem,4.5vw,2.4rem);margin-bottom:.6rem}
+.news p{color:var(--muted);max-width:34em;margin:0 auto 1.6rem}
+.news form{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.news input[type=email]{flex:1 1 260px;max-width:380px;min-height:50px;padding:.6rem 1.2rem;border-radius:999px;background:rgba(6,10,24,.7);border:1px solid var(--line);color:var(--text);font:500 1rem var(--font-body)}
+.news input[type=email]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.25)}
+.consent{flex:1 1 100%;display:flex;gap:.7rem;align-items:flex-start;justify-content:center;text-align:left;font-size:.92rem;color:var(--muted);max-width:640px;margin:0 auto}
+.consent input{width:22px;height:22px;flex:none;margin-top:.15rem;accent-color:var(--cyan)}
+.news .ok{margin:1rem auto 0;color:var(--mint);font-weight:600;min-height:1.6em}
+
+/* ===== Pied de page ===== */
+footer{border-top:1px solid var(--line);padding:2.6rem 0 3rem;background:rgba(6,10,24,.6)}
+footer .links{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;margin-bottom:1.2rem}
+footer .links a{min-height:44px;display:inline-flex;align-items:center;color:var(--text)}
+footer .links a:hover{color:var(--cyan)}
+footer p{color:var(--muted);font-size:.95rem;max-width:62em;margin-bottom:.6rem}
+
+/* ===== Fenêtre de lecture ===== */
+dialog{width:min(720px,100% - 1.4rem);max-height:88vh;margin:auto;padding:0;border-radius:24px;background:#0d1530;color:var(--text);border:1px solid var(--cyan);box-shadow:0 0 60px rgba(34,211,238,.3);overflow:auto}
+dialog[open]{animation:pop .3s ease}
+dialog::backdrop{background:rgba(2,5,15,.8);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.dlg-in{padding:clamp(1.4rem,4vw,2.4rem)}
+.dlg-in h2{font-size:clamp(1.5rem,4vw,2rem);margin:.6rem 0 1rem;padding-right:3rem}
+.dlg-in h3{font-size:1.15rem;margin:1.5rem 0 .5rem;color:var(--cyan)}
+.dlg-in p{margin-bottom:1rem;color:#dbe6ff;max-width:62ch}
+.dlg-in ul{margin:0 0 1.2rem 1.3rem;color:#dbe6ff}
+.dlg-in li{margin-bottom:.4rem}
+.dlg-in .btn{margin-top:.6rem}
+.dlg-in .small{font-size:.9rem;color:var(--muted)}
+.close{position:sticky;top:.8rem;float:right;margin:.8rem .8rem 0 0;width:44px;height:44px;border-radius:50%;background:var(--glass-strong);border:1px solid var(--line);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:2}
+.close:hover{border-color:var(--cyan)}
+
+/* ===== Apparition au défilement ===== */
+.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+
+<body>
+<!-- ===== EN-TÊTE ===== -->
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="#accueil"><span class="dot">🐾</span>Nalapi</a>
+
+    <div class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Rechercher : chat, harnais, jouet…" aria-label="Rechercher un article ou un produit" autocomplete="off">
+    </div>
+
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="main" id="menu" aria-label="Navigation principale">
+      <a href="#accueil">Accueil</a>
+      <a href="#categories">Catégories</a>
+      <a href="#articles">Articles</a>
+      <a href="#produits">Produits</a>
+      <a href="#newsletter" id="navNews">Newsletter</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ===== HERO ===== -->
+<section class="hero" id="accueil">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <h1>Le meilleur pour ceux qui vous aiment sans condition</h1>
+      <p class="lead">Guides d'achat clairs et sélections de produits pour chiens, chats et petits animaux. Trouvez le bon équipement sans y passer des heures.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#produits">Voir les produits</a>
+        <a class="btn btn-ghost" href="#articles">Lire les guides</a>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="media" data-emoji="🐶">
+        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=1000&q=75" alt="Chiot joyeux" referrerpolicy="no-referrer" onerror="this.remove()">
+      </div>
+      <div class="badge">Guides d'achat 2026<small>Sélection éditoriale</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATÉGORIES ===== -->
+<section id="categories" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Explorer par catégorie</h2>
+      <p>Choisissez un univers pour filtrer les articles et les produits.</p>
+    </div>
+    <div class="cats" id="cats"></div>
+  </div>
+</section>
+
+<!-- ===== ARTICLES ===== -->
+<section id="articles" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Derniers guides d'achat</h2>
+      <p>Des conseils concrets pour choisir en connaissance de cause.</p>
+    </div>
+    <div class="filters" id="chips" role="group" aria-label="Filtrer par catégorie"></div>
+    <p class="status" id="status" aria-live="polite"></p>
+    <div class="grid" id="articleGrid"></div>
+  </div>
+</section>
+
+<!-- ===== PRODUITS ===== -->
+<section id="produits" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Notre sélection de produits</h2>
+      <p>Des produits qui répondent aux critères de nos guides.</p>
+    </div>
+    <p class="note"><b>Transparence :</b> les liens « Voir le prix » sont des liens d'affiliation. Si vous achetez après un clic, nous pouvons recevoir une commission, sans frais supplémentaires pour vous. Cette sélection s'appuie sur les caractéristiques des produits et sur les avis publiés par les acheteurs ; nous ne prétendons pas avoir testé chaque produit. <a href="#transparence">En savoir plus</a></p>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER (affichée seulement si NEWSLETTER.action est rempli) ===== -->
+<section id="newsletter" class="reveal">
+  <div class="wrap">
+    <div class="news">
+      <h2>Recevez nos meilleurs conseils</h2>
+      <p>Un e-mail de temps en temps avec les nouveaux guides. Désinscription possible à tout moment.</p>
+      <form id="newsForm" method="post" target="_blank">
+        <label for="email" style="position:absolute;left:-9999px">Adresse e-mail</label>
+        <input id="email" type="email" required placeholder="votre@email.com" autocomplete="email">
+        <button class="btn btn-primary" type="submit">Je m'inscris</button>
+        <label class="consent">
+          <input type="checkbox" required>
+          <span>J'accepte de recevoir la newsletter de Nalapi par e-mail. Mon adresse ne sert qu'à cet envoi (voir la <a href="#confidentialite">politique de confidentialité</a>).</span>
+        </label>
+      </form>
+      <p class="ok" id="newsOk" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===== PIED DE PAGE ===== -->
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="#accueil">Accueil</a>
+      <a href="#apropos">À propos</a>
+      <a href="#contact">Contact</a>
+      <a href="#transparence">Transparence et affiliation</a>
+      <a href="#mentions-legales">Mentions légales</a>
+      <a href="#confidentialite">Politique de confidentialité</a>
+      <a href="#cookies">Cookies</a>
+    </div>
+    <p>Certains liens de ce site sont des liens d'affiliation : nous pouvons percevoir une commission, sans frais supplémentaires pour vous.</p>
+    <!-- ✏️ Phrase exigée par Amazon Partenaires. Supprime-la si tu n'utilises pas Amazon. -->
+    <p>En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises.</p>
+    <p>Les contenus de ce site sont informatifs et ne remplacent pas l'avis d'un vétérinaire.</p>
+    <p>© <span id="year"></span> Nalapi. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <button class="close" id="dlgClose" aria-label="Fermer">✕</button>
+  <div class="dlg-in" id="dlgBody"></div>
+</dialog>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* =====================================================================
+   ÉTAPE 1 : REMPLIS TES INFORMATIONS LÉGALES
+   Tout ce qui est entre [crochets] s'affiche en jaune sur le site tant
+   que tu ne l'as pas remplacé. Le site ne doit pas être publié avant.
+   ===================================================================== */
+const SITE = {
+  nom:        'Nalapi',
+  url:        '[https://ton-pseudo.github.io/nom-du-depot]',
+  editeur:    '[Prénom NOM]',                       // ton nom (personne physique)
+  statut:     'Entrepreneur individuel (micro-entrepreneur)',
+  siret:      '[numéro SIRET à 14 chiffres]',       // reçu après ton immatriculation
+  adresse:    '[adresse postale complète]',
+  email:      '[adresse e-mail de contact]',
+  telephone:  '[numéro de téléphone]',
+  directeur:  '[Prénom NOM]',                       // directeur de la publication (souvent toi)
+  tva:        'TVA non applicable, article 293 B du Code général des impôts',
+  hebergeur:  {
+    nom:     'GitHub, Inc.',
+    adresse: '88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis',
+    site:    'https://pages.github.com'
+  },
+  maj: '21 septembre 2026'                          // date de dernière mise à jour des textes légaux
+};
+
+/* ÉTAPE 2 (facultatif) : NEWSLETTER
+   Tant que "action" est vide, la newsletter est masquée sur le site.
+   Pour l'activer : crée un compte gratuit chez Brevo, MailerLite ou Mailchimp,
+   copie l'adresse "action" de leur formulaire d'inscription, et le nom du champ e-mail. */
+const NEWSLETTER = {
+  action: '',              // ex : 'https://xxxx.sibforms.com/serve/...'
+  champEmail: 'EMAIL',     // nom du champ e-mail chez ton prestataire
+  prestataire: '[Brevo / MailerLite / Mailchimp]'
+};
+
+/* =====================================================================
+   CONTENU DU SITE
+   ===================================================================== */
+const CATEGORIES = [
+  {name:'Chiens',emoji:'🐶'},
+  {name:'Chats',emoji:'🐱'},
+  {name:'Petits animaux',emoji:'🐰'},
+  {name:'Alimentation',emoji:'🥣'},
+  {name:'Jouets',emoji:'🧸'},
+  {name:'Santé et confort',emoji:'💙'},
+  {name:'Accessoires',emoji:'🎀'}
+];
+
+/* ✏️ Remplace TON-ID-AFFILIE-21 par ton identifiant Amazon Partenaires. */
+const ARTICLES = [
+  {
+    id:'a1', emoji:'🐱', cats:['Chats','Accessoires'],
+    title:'Fontaine à eau pour chat : comment choisir en 2026',
+    desc:'Matériau, capacité, bruit, filtres : les critères qui comptent vraiment.',
+    img:'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=70', alt:'Chat au regard attentif',
+    body:[
+      "Beaucoup de chats boivent peu. Une fontaine, avec son eau en mouvement, les incite souvent à s'hydrater davantage. En cas de doute sur la santé de votre chat, demandez l'avis d'un vétérinaire.",
+      "<b>Les critères à vérifier :</b>",
+      ["Matériau : l'inox et la céramique se nettoient plus facilement que le plastique.","Capacité : entre 1,5 et 3 litres convient à la plupart des foyers.","Bruit : cherchez un modèle silencieux, surtout si vous dormez près de la pièce.","Filtres : vérifiez qu'ils sont faciles à trouver et à remplacer.","Nettoyage : un modèle démontable simplifie l'entretien hebdomadaire."],
+      "Astuce : lavez la fontaine chaque semaine, même si l'eau semble propre."
+    ],
+    cta:{label:'Voir les fontaines à eau', href:'https://www.amazon.fr/s?k=fontaine+eau+chat+inox&tag=TON-ID-AFFILIE-21'}
+  },
+  {
+    id:'a2', emoji:'🐶', cats:['Chiens','Accessoires'],
+    title:'Harnais ou collier pour chiot : que choisir ?',
+    desc:'Confort, sécurité et apprentissage de la marche en laisse.',
+    img:'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=70', alt:'Chien en promenade',
+    body:[
+      "Le harnais répartit la pression sur le torse plutôt que sur le cou : c'est en général le choix le plus confortable pour un chiot qui tire encore en laisse.",
+      "<b>Comment choisir :</b>",
+      ["Prenez un harnais réglable : votre chiot va grandir vite.","Deux points d'attache (dos et poitrail) aident à limiter la traction.","Vérifiez qu'on peut glisser deux doigts entre le harnais et le corps.","Gardez un collier léger avec une médaille d'identification."],
+      "Introduisez le harnais progressivement, avec des friandises, pour qu'il l'associe à quelque chose d'agréable."
+    ],
+    cta:{label:'Voir les harnais pour chiot', href:'https://www.amazon.fr/s?k=harnais+chiot+r%C3%A9glable&tag=TON-ID-AFFILIE-21'}
+  },
+  {
+    id:'a3', emoji:'🐱', cats:['Chats','Santé et confort'],
+    title:'Litière agglomérante : les critères pour bien choisir',
+    desc:'Agglomération, poussière, odeurs, poids : ce qui fait la différence.',
+    img:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=70', alt:'Chat allongé',
+    body:[
+      "Une bonne litière, c'est un chat qui l'utilise volontiers et une maison qui ne sent pas. Voici ce qu'il faut regarder.",
+      "<b>Les points clés :</b>",
+      ["Agglomération : des boules bien compactes se retirent proprement et durent plus longtemps.","Poussière : privilégiez une litière peu poussiéreuse, plus agréable pour le chat et pour vous.","Odeurs : le contrôle des odeurs compte plus qu'un parfum ajouté, que beaucoup de chats n'aiment pas.","Poids et format : les litières végétales sont plus légères à porter."],
+      "Pour changer de litière, mélangez l'ancienne et la nouvelle pendant 5 à 7 jours."
+    ],
+    cta:{label:'Voir les litières', href:'https://www.amazon.fr/s?k=liti%C3%A8re+chat+agglom%C3%A9rante&tag=TON-ID-AFFILIE-21'}
+  },
+  {
+    id:'a4', emoji:'🧸', cats:['Chiens','Jouets'],
+    title:'Jouets pour occuper un chien seul à la maison',
+    desc:'Des idées simples pour éviter l\'ennui et les bêtises.',
+    img:'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=70', alt:'Chiens qui jouent',
+    body:[
+      "Un chien qui s'ennuie peut aboyer ou détruire des objets. Quelques jouets bien choisis lui donnent une occupation utile.",
+      "<b>Les options efficaces :</b>",
+      ["Jouets à garnir de friandises ou de croquettes : ils prolongent l'activité mentale.","Tapis de fouille : le chien cherche sa nourriture avec le museau.","Jouets à mâcher résistants, adaptés à sa taille.","Rotation : proposez 2 ou 3 jouets à la fois et changez-les régulièrement."],
+      "Ne laissez sans surveillance que des jouets solides, et rappelez-vous qu'un jouet ne remplace pas une vraie promenade."
+    ],
+    cta:{label:'Voir les jouets à friandises', href:'https://www.amazon.fr/s?k=jouet+friandises+chien&tag=TON-ID-AFFILIE-21'}
+  },
+  {
+    id:'a5', emoji:'🐱', cats:['Chats','Jouets','Accessoires'],
+    title:'Comment choisir un arbre à chat',
+    desc:'Hauteur, stabilité, griffoirs : le guide d\'achat complet.',
+    img:'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=800&q=70', alt:'Chat curieux',
+    body:[
+      "Un arbre à chat offre un terrain de jeu, un poste d'observation et un endroit où faire ses griffes, ce qui protège aussi vos meubles.",
+      "<b>À vérifier avant d'acheter :</b>",
+      ["Stabilité : une base large et lourde évite les bascules.","Hauteur : les chats aiment dominer la pièce.","Griffoirs en sisal : solides et bien fixés.","Plateformes : assez grandes pour la taille de votre chat, surtout pour les grandes races.","Emplacement : idéalement près d'une fenêtre."],
+      "Placez-le dans une pièce où la famille passe du temps : un chat aime être proche des siens."
+    ],
+    cta:{label:'Voir les arbres à chat', href:'https://www.amazon.fr/s?k=arbre+%C3%A0+chat+stable&tag=TON-ID-AFFILIE-21'}
+  },
+  {
+    id:'a6', emoji:'🥣', cats:['Chiens','Alimentation'],
+    title:'Croquettes pour petits chiens : ce qu\'il faut lire sur l\'étiquette',
+    desc:'Taille des croquettes, ingrédients, transition : les bons réflexes.',
+    img:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=800&q=70', alt:'Petit chien',
+    body:[
+      "Les petits chiens ont un métabolisme rapide et une petite mâchoire : leur alimentation doit être adaptée.",
+      "<b>Les points à regarder :</b>",
+      ["Taille des croquettes : plus petites, faciles à croquer.","Liste d'ingrédients : une source de viande clairement identifiée en tête est bon signe.","Apport énergétique adapté à l'activité et à l'âge (chiot, adulte, senior).","Transition : changez de croquettes sur 7 à 10 jours pour ménager la digestion."],
+      "En cas de doute (allergies, surpoids, maladie), demandez conseil à votre vétérinaire."
+    ],
+    cta:{label:'Voir les croquettes petites races', href:'https://www.amazon.fr/s?k=croquettes+petit+chien&tag=TON-ID-AFFILIE-21'}
+  }
+];
+
+/* Pas de notes en étoiles : de fausses notes seraient une pratique commerciale trompeuse.
+   Si tu testes vraiment des produits, tu pourras ajouter un vrai avis rédigé par toi. */
+const PRODUCTS = [
+  {
+    id:'p1', emoji:'🐱', cats:['Chats','Accessoires'],
+    name:'Fontaine à eau en inox pour chat',
+    desc:'Une eau toujours fraîche pour encourager votre chat à boire.',
+    pros:['Inox facile à nettoyer','Fonctionnement silencieux','Filtre remplaçable'],
+    img:'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=70', alt:'Chat',
+    link:'https://www.amazon.fr/s?k=fontaine+eau+chat+inox&tag=TON-ID-AFFILIE-21'
+  },
+  {
+    id:'p2', emoji:'🐶', cats:['Chiens','Accessoires'],
+    name:'Harnais réglable anti-traction',
+    desc:'Confortable pour les promenades avec un chiot ou un chien qui tire.',
+    pros:['Double point d\'attache','Sangles réglables','Bandes réfléchissantes'],
+    img:'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=70', alt:'Chien en balade',
+    link:'https://www.amazon.fr/s?k=harnais+anti+traction+chien&tag=TON-ID-AFFILIE-21'
+  },
+  {
+    id:'p3', emoji:'🧸', cats:['Chiens','Jouets'],
+    name:'Jouet à friandises en caoutchouc',
+    desc:'Occupe votre chien pendant que vous êtes absent.',
+    pros:['Caoutchouc résistant','Se garnit de friandises','Lavable'],
+    img:'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=800&q=70', alt:'Chien joueur',
+    link:'https://www.amazon.fr/s?k=jouet+friandises+chien+caoutchouc&tag=TON-ID-AFFILIE-21'
+  },
+  {
+    id:'p4', emoji:'🐱', cats:['Chats','Jouets','Accessoires'],
+    name:'Arbre à chat stable avec griffoirs',
+    desc:'Un coin de jeu et de repos pour chat d\'appartement.',
+    pros:['Base large et stable','Griffoirs en sisal','Plateformes confortables'],
+    img:'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=800&q=70', alt:'Chat',
+    link:'https://www.amazon.fr/s?k=arbre+%C3%A0+chat&tag=TON-ID-AFFILIE-21'
+  },
+  {
+    id:'p5', emoji:'🥣', cats:['Chiens','Alimentation','Santé et confort'],
+    name:'Gamelle anti-glouton',
+    desc:'Ralentit le repas des chiens qui mangent trop vite.',
+    pros:['Reliefs ralentisseurs','Base antidérapante','Passe au lave-vaisselle'],
+    img:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=800&q=70', alt:'Chien',
+    link:'https://www.amazon.fr/s?k=gamelle+anti+glouton+chien&tag=TON-ID-AFFILIE-21'
+  },
+  {
+    id:'p6', emoji:'🐰', cats:['Petits animaux','Accessoires'],
+    name:'Enclos pliable pour lapin et petits animaux',
+    desc:'Un espace sûr, modulable et facile à ranger.',
+    pros:['Panneaux modulables','Installation rapide','Intérieur ou extérieur'],
+    img:'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?auto=format&fit=crop&w=800&q=70', alt:'Petit animal',
+    link:'https://www.amazon.fr/s?k=enclos+lapin+pliable&tag=TON-ID-AFFILIE-21'
+  }
+];
+
+/* =====================================================================
+   PAGES LÉGALES (générées à partir de SITE et NEWSLETTER ci-dessus)
+   ===================================================================== */
+const f = v => String(v).startsWith('[') ? `<mark class="todo">${v}</mark>` : v;
+const mail = () => String(SITE.email).startsWith('[') ? f(SITE.email) : `<a href="mailto:${SITE.email}">${SITE.email}</a>`;
+
+function buildPages(){
+  const nl = !!NEWSLETTER.action;
+  return {
+    apropos:{title:'À propos', html:`
+      <p>${SITE.nom} aide les propriétaires d'animaux à choisir le bon équipement grâce à des guides d'achat clairs.</p>
+      <p>Nous ne fabriquons ni ne vendons aucun produit : le site est financé par des commissions d'affiliation (voir <a href="#transparence">Transparence et affiliation</a>).</p>
+      <p>Une question ou une correction à signaler ? <a href="#contact">Contactez-nous</a>.</p>`},
+
+    contact:{title:'Contact', html:`
+      <p>Une question, une suggestion, une demande concernant vos données personnelles ?</p>
+      <p>Écrivez-nous : ${mail()}</p>
+      <p class="small">Nous répondons dès que possible.</p>`},
+
+    transparence:{title:'Transparence et affiliation', html:`
+      <h3>Comment ${SITE.nom} gagne de l'argent</h3>
+      <p>Ce site contient des liens d'affiliation, signalés par la mention « Lien affilié » ou « Voir le prix ». Si vous cliquez puis achetez sur le site marchand, nous pouvons recevoir une commission. Le prix que vous payez ne change pas.</p>
+      <p>En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises.</p>
+      <h3>Notre indépendance</h3>
+      <p>Les marques ne paient pas pour figurer dans nos guides. Nos sélections s'appuient sur les caractéristiques des produits et sur les avis publiés par les acheteurs. Sauf mention contraire, nous n'avons pas testé nous-mêmes chaque produit.</p>
+      <h3>Prix et disponibilité</h3>
+      <p>Les prix et la disponibilité changent souvent : vérifiez-les toujours sur la page du marchand avant d'acheter.</p>
+      <h3>Santé de votre animal</h3>
+      <p>Les contenus sont informatifs et ne remplacent pas l'avis d'un vétérinaire. En cas de doute sur la santé de votre animal, consultez un professionnel.</p>`},
+
+    'mentions-legales':{title:'Mentions légales', html:`
+      <p class="small">Dernière mise à jour : ${SITE.maj}</p>
+      <h3>Éditeur du site</h3>
+      <p>${f(SITE.editeur)}, ${SITE.statut}.<br>
+      SIRET : ${f(SITE.siret)}<br>
+      Adresse : ${f(SITE.adresse)}<br>
+      E-mail : ${mail()}<br>
+      Téléphone : ${f(SITE.telephone)}<br>
+      ${SITE.tva}.</p>
+      <h3>Directeur de la publication</h3>
+      <p>${f(SITE.directeur)}</p>
+      <h3>Hébergeur</h3>
+      <p>${SITE.hebergeur.nom}<br>${SITE.hebergeur.adresse}<br>
+      <a href="${SITE.hebergeur.site}" target="_blank" rel="noopener">${SITE.hebergeur.site}</a></p>
+      <h3>Propriété intellectuelle</h3>
+      <p>Les textes et la mise en page du site sont protégés par le droit d'auteur. Toute reproduction sans autorisation est interdite. Les photographies proviennent d'Unsplash et sont utilisées selon la licence Unsplash. Les marques citées appartiennent à leurs propriétaires respectifs.</p>
+      <h3>Responsabilité</h3>
+      <p>Nous nous efforçons de fournir des informations exactes, mais elles sont données à titre indicatif et peuvent contenir des erreurs. Nous ne sommes pas responsables du contenu des sites externes vers lesquels pointent nos liens, ni des achats effectués sur ces sites.</p>
+      <h3>Droit applicable</h3>
+      <p>Le site est soumis au droit français.</p>`},
+
+    confidentialite:{title:'Politique de confidentialité', html:`
+      <p class="small">Dernière mise à jour : ${SITE.maj}</p>
+      <h3>Qui est responsable de vos données ?</h3>
+      <p>${f(SITE.editeur)}, éditeur du site ${SITE.nom}. Contact : ${mail()}</p>
+      <h3>Quelles données sont traitées ?</h3>
+      <ul>
+        <li><b>Navigation :</b> ce site n'utilise ni outil de mesure d'audience, ni publicité, ni cookie. Notre hébergeur (${SITE.hebergeur.nom}) peut toutefois enregistrer des données techniques (adresse IP, date et heure, pages consultées) pour assurer le fonctionnement et la sécurité du service.</li>
+        <li><b>Images :</b> les photographies sont chargées depuis Unsplash (images.unsplash.com). Votre adresse IP est alors transmise à ce service.</li>
+        <li><b>Liens d'affiliation :</b> en cliquant, vous quittez ce site. Le site marchand (par exemple Amazon) applique sa propre politique de confidentialité et peut déposer des cookies.</li>
+        <li><b>E-mails :</b> si vous nous écrivez, nous utilisons votre message et votre adresse pour vous répondre (intérêt légitime). Nous les conservons le temps nécessaire au traitement de votre demande.</li>
+        ${nl ? `<li><b>Newsletter :</b> votre adresse e-mail, collectée avec votre consentement, sert uniquement à vous envoyer la newsletter. Elle est traitée par notre prestataire ${f(NEWSLETTER.prestataire)}. Nous la conservons jusqu'à votre désinscription, ou au plus 3 ans après votre dernière interaction. Un lien de désinscription figure dans chaque e-mail.</li>` : `<li><b>Formulaires :</b> ce site ne collecte aucune donnée via un formulaire.</li>`}
+      </ul>
+      <h3>Transferts hors de l'Union européenne</h3>
+      <p>Notre hébergeur et certains services externes (Unsplash${nl ? ', ' + f(NEWSLETTER.prestataire) : ''}) peuvent être situés hors de l'Union européenne, notamment aux États-Unis. Ces transferts sont encadrés par les mécanismes prévus par le RGPD.</p>
+      <h3>Vos droits</h3>
+      <p>Vous pouvez demander l'accès à vos données, leur rectification, leur effacement, la limitation ou l'opposition à leur traitement, ainsi que leur portabilité. ${nl ? 'Vous pouvez aussi retirer votre consentement à tout moment. ' : ''}Pour cela, écrivez à ${mail()}.</p>
+      <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez déposer une réclamation auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>.</p>
+      <h3>Modifications</h3>
+      <p>Cette politique peut évoluer. La date de mise à jour figure en haut de la page.</p>`},
+
+    cookies:{title:'Cookies', html:`
+      <p class="small">Dernière mise à jour : ${SITE.maj}</p>
+      <p>Le site ${SITE.nom} ne dépose aucun cookie ni traceur sur votre appareil : il n'utilise ni mesure d'audience, ni publicité, ni réseau social intégré. Aucun bandeau de consentement n'est donc nécessaire.</p>
+      <p>Lorsque vous cliquez sur un lien d'affiliation, vous arrivez sur le site d'un marchand (par exemple Amazon), qui peut déposer ses propres cookies selon sa politique.</p>
+      <p>Si nous ajoutons un jour un outil de mesure d'audience ou de la publicité, nous vous demanderons votre accord avant tout dépôt de cookie.</p>`}
+  };
+}
+const PAGES = buildPages();
+
+/* =====================================================================
+   CODE DU SITE
+   ===================================================================== */
+const $ = s => document.querySelector(s);
+const state = {q:'', cat:'Tout'};
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+function media(item){
+  return `<div class="media" data-emoji="${item.emoji}"><img src="${item.img}" alt="${item.alt}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></div>`;
+}
+function matches(item){
+  if(!(state.cat==='Tout' || item.cats.includes(state.cat))) return false;
+  if(!state.q) return true;
+  const hay = norm([item.title||item.name, item.desc, item.cats.join(' ')].join(' '));
+  return norm(state.q).split(/\s+/).every(w => hay.includes(w));
+}
+
+function renderCats(){
+  $('#cats').innerHTML = CATEGORIES.map(c=>{
+    const n = ARTICLES.filter(a=>a.cats.includes(c.name)).length + PRODUCTS.filter(p=>p.cats.includes(c.name)).length;
+    return `<button class="cat" data-cat="${c.name}"><span class="ico">${c.emoji}</span><span>${c.name}<small>${n} contenus</small></span></button>`;
+  }).join('');
+}
+function renderChips(){
+  const all = ['Tout',...CATEGORIES.map(c=>c.name)];
+  $('#chips').innerHTML = all.map(n=>`<button class="chip" data-cat="${n}" aria-pressed="${state.cat===n}">${n}</button>`).join('');
+}
+function render(){
+  const arts = ARTICLES.filter(matches);
+  const prods = PRODUCTS.filter(matches);
+
+  $('#articleGrid').innerHTML = arts.length ? arts.map(a=>`
+    <article class="card">
+      ${media(a)}
+      <div class="body">
+        <div class="tags">${a.cats.map(c=>`<span class="tag">${c}</span>`).join('')}</div>
+        <h3>${a.title}</h3>
+        <p>${a.desc}</p>
+        <button class="btn btn-ghost" data-read="${a.id}">Lire l'article</button>
+      </div>
+    </article>`).join('') : `<div class="empty">Aucun article ne correspond. Essayez « chat », « harnais » ou « jouet ».</div>`;
+
+  $('#productGrid').innerHTML = prods.length ? prods.map(p=>`
+    <article class="card">
+      ${media(p)}
+      <div class="body">
+        <div class="tags">${p.cats.map(c=>`<span class="tag">${c}</span>`).join('')}</div>
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <ul class="pros">${p.pros.map(x=>`<li>${x}</li>`).join('')}</ul>
+        <a class="btn btn-primary" href="${p.link}" target="_blank" rel="sponsored noopener">Voir le prix</a>
+        <span class="aff">Lien affilié</span>
+      </div>
+    </article>`).join('') : `<div class="empty">Aucun produit ne correspond à cette recherche.</div>`;
+
+  const total = arts.length + prods.length;
+  const bits = [];
+  if(state.q) bits.push(`« ${state.q} »`);
+  if(state.cat!=='Tout') bits.push(state.cat);
+  $('#status').textContent = bits.length ? `${total} résultat${total>1?'s':''} pour ${bits.join(' · ')}` : '';
+  renderChips();
+}
+
+/* Fenêtre (articles et pages légales) */
+const dlg = $('#dlg');
+function openDialog(html){
+  $('#dlgBody').innerHTML = html;
+  if(!dlg.open){ if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); }
+  dlg.scrollTop = 0;
+}
+function openArticle(id){
+  const a = ARTICLES.find(x=>x.id===id); if(!a) return;
+  const content = a.body.map(b => Array.isArray(b) ? `<ul>${b.map(li=>`<li>${li}</li>`).join('')}</ul>` : `<p>${b}</p>`).join('');
+  openDialog(`
+    <div class="tags">${a.cats.map(c=>`<span class="tag">${c}</span>`).join('')}</div>
+    <h2 id="dlgTitle">${a.title}</h2>${content}
+    <a class="btn btn-primary" href="${a.cta.href}" target="_blank" rel="sponsored noopener">${a.cta.label}</a>
+    <p class="small" style="margin-top:.8rem">Lien affilié : nous pouvons percevoir une commission, sans frais pour vous. Contenu informatif, qui ne remplace pas l'avis d'un vétérinaire.</p>`);
+}
+function openPageFromHash(){
+  const key = decodeURIComponent(location.hash.slice(1));
+  if(PAGES[key]) openDialog(`<h2 id="dlgTitle">${PAGES[key].title}</h2>${PAGES[key].html}`);
+}
+addEventListener('hashchange',openPageFromHash);
+dlg.addEventListener('close',()=>{
+  if(PAGES[decodeURIComponent(location.hash.slice(1))]) history.replaceState(null,'',location.pathname+location.search);
+});
+$('#dlgClose').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.close(); });
+/* Un lien vers une page légale depuis l'intérieur d'une fenêtre : on la remplace */
+$('#dlgBody').addEventListener('click',e=>{
+  const a = e.target.closest('a[href^="#"]');
+  if(a){ e.preventDefault(); const k=a.getAttribute('href').slice(1);
+    if(PAGES[k]){ history.replaceState(null,'','#'+k); openPageFromHash(); } }
+});
+
+/* Événements */
+document.addEventListener('click',e=>{
+  const catBtn = e.target.closest('[data-cat]');
+  if(catBtn){
+    state.cat = catBtn.dataset.cat; render();
+    if(catBtn.classList.contains('cat')) $('#articles').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  const read = e.target.closest('[data-read]');
+  if(read) openArticle(read.dataset.read);
+});
+$('#q').addEventListener('input',e=>{ state.q = e.target.value.trim(); render(); });
+$('#q').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){ e.preventDefault(); $('#articles').scrollIntoView({behavior:'smooth'}); e.target.blur(); }
+});
+
+/* Menu mobile */
+const burger = $('#burger'), menu = $('#menu');
+burger.addEventListener('click',()=>{
+  const open = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded',open);
+  burger.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
+});
+menu.addEventListener('click',e=>{
+  if(e.target.tagName==='A'){ menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+});
+
+/* Newsletter : masquée tant qu'aucun prestataire n'est configuré */
+if(NEWSLETTER.action){
+  const form = $('#newsForm');
+  form.action = NEWSLETTER.action;
+  $('#email').name = NEWSLETTER.champEmail;
+  form.addEventListener('submit',()=>{
+    $('#newsOk').textContent = 'Merci ! Consultez votre boîte mail pour confirmer votre inscription.';
+  });
+} else {
+  $('#newsletter').remove();
+  $('#navNews').remove();
+}
+
+/* Apparition des sections au défilement */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* Réseau de particules (fond du hero) */
+(function(){
+  const cv = $('#net'), ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w,h,pts=[],raf;
+  function size(){
+    const r = cv.parentElement.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio||1,2);
+    w = r.width; h = r.height;
+    cv.width = w*dpr; cv.height = h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n = Math.round(Math.min(70, w*h/16000));
+    pts = Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35}));
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(const p of pts){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>w) p.vx*=-1;
+      if(p.y<0||p.y>h) p.vy*=-1;
+    }
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.hypot(dx,dy);
+        if(d<130){ ctx.strokeStyle=`rgba(34,211,238,${.28*(1-d/130)})`; ctx.lineWidth=1;
+          ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); }
+      }
+      ctx.fillStyle='rgba(167,139,250,.75)'; ctx.beginPath(); ctx.arc(pts[i].x,pts[i].y,2,0,7); ctx.fill();
+    }
+    if(!reduce) raf = requestAnimationFrame(draw);
+  }
+  size(); draw();
+  addEventListener('resize',()=>{ cancelAnimationFrame(raf); size(); draw(); });
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden) cancelAnimationFrame(raf); else if(!reduce) draw(); });
+})();
+
+$('#year').textContent = new Date().getFullYear();
+renderCats(); render(); openPageFromHash();
+</script>
+</body>
+</html>
